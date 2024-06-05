@@ -1,23 +1,43 @@
 package com.example.airline_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.source.tree.LambdaExpressionTree;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
+@Table(name = "flights")
 public class Flight {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "destination")
     private String destination;
+
+    @Column(name = "capacity")
     private int capacity;
+
+    @Column(name = "departure_date")
     private String departureDate;
+
+    @Column(name = "departure_time")
     private String departureTime;
-    private List<Passenger> passengers;
+
+    @OneToMany(mappedBy = "flight")
+    @JsonIgnoreProperties("{flight}")
+    private List<Booking> bookings;
 
     public Flight(String destination, int capacity, String departureDate, String departureTime) {
         this.destination = destination;
         this.capacity = capacity;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
-        this.passengers = new ArrayList<>();
+        this.bookings = new ArrayList<>();
     }
 
     public Flight() {
@@ -39,20 +59,20 @@ public class Flight {
         this.destination = destination;
     }
 
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
     public String getDepartureDate() {
         return departureDate;
     }
 
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public String getDepartureTime() {
@@ -63,11 +83,19 @@ public class Flight {
         this.departureTime = departureTime;
     }
 
-    public List<Passenger> getPassengers() {
-        return passengers;
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
-    public void setPassengers(List<Passenger> passengers) {
-        this.passengers = passengers;
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public void addBooking(Booking booking){
+        this.bookings.add(booking);
+    }
+
+    public void removeBooking(Booking booking){
+        this.bookings.remove(booking);
     }
 }
