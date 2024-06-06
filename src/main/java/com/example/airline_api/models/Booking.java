@@ -1,6 +1,7 @@
 package com.example.airline_api.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,10 +15,12 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
+    @JsonIgnoreProperties({"bookings"})
     private Flight flight;
 
     @ManyToOne
-    @JoinColumn(name = "booking_id")
+    @JoinColumn(name = "passenger_id")
+    @JsonIgnoreProperties({"bookings"})
     private Passenger passenger;
 
     @Column(name = "seat_number")
